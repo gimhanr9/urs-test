@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import { ThemeProvider } from '@mui/material/styles';
+import { Theme } from './utils/Theme';
+import { Routes, Route } from 'react-router-dom';
+import { protectedRoutes, routes } from './routes';
+import Layout from './components/layout';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={Theme}>
+      <div className='App'>
+        <Routes exact>
+          {protectedRoutes.map((route, index) => (
+            <Route
+              key={index}
+              path={route.path}
+              element={<Layout>{route.component}</Layout>}
+            />
+          ))}
+          {routes.map((route, index) => (
+            <Route key={index} path={route.path} element={route.component} />
+          ))}
+        </Routes>
+      </div>
+    </ThemeProvider>
   );
 }
 
